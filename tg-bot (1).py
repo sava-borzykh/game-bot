@@ -16,7 +16,7 @@ from flask import Flask, request
 TOKEN = os.getenv("8355080590:AAE6WRBkCHrekHj_OmokswYXOy99fPy0S5s")
 bot = telebot.TeleBot(TOKEN)
 
-app = Flask(name)
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -200,7 +200,7 @@ def answer(call):
 
 
 if __name__ == "__main__":
-    server_url = os.getenv("SERVER_URL")
+    server_url = os.getenv("RENDER_EXTERNAL_URL")
     if server_url and TOKEN:
         webhook_url = f"{server_url}/{TOKEN}"
         set_webhook_url = f"https://api.telegram.org/bot{TOKEN}/setWebhook?url={webhook_url}"
@@ -209,7 +209,9 @@ if __name__ == "__main__":
             print("Webhook установлен:", r.text)
         except Exception as e:
             print("Ошибка при установке webhook:", e)
-        app.run(host='0.0.0.0', port=8080)
+        port = int(as.environ.get("PORT", 10000))
+        pint(f"Starting server on port{port}")
+        app.run(host='0.0.0.0', port=port)
     else:
         print("Запуск бота в режиме pooling")
         bot.remove_webhook()
