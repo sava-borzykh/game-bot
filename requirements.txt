@@ -5,4 +5,4 @@ tensorflow
 pillow
 gdown
 Flask
-pyton-dotenv
+python-dotenv
